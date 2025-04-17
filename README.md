@@ -35,4 +35,4 @@ Task Tracker is simple project to note, manage, and monitor tasks.
 
 ## 🔗 Project URL
 
-https://github.com/AdiDayat12/Task-Tracker.git
+https://github.com/AdiDayat12/Task-Tracker
