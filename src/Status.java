@@ -1,6 +1,6 @@
 public enum Status {
     TODO("Todo"),
-    INPROGRESS("Done"),
+    INPROGRESS("In Progress"),
     DONE("Done");
 
     private final String status;
@@ -8,7 +8,17 @@ public enum Status {
         this.status = status;
     }
 
-    public String getStatus() {
+    public String statusToString() {
         return status;
+    }
+
+    public Status stringToStatus (String status){
+        if (status.equalsIgnoreCase("todo")){
+            return TODO;
+        } else if (status.equalsIgnoreCase("in progress")) {
+            return INPROGRESS;
+        } else {
+            return DONE;
+        }
     }
 }
