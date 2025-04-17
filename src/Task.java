@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -8,24 +7,37 @@ public class Task {
     private Status status;
     private TaskManager taskManager = TaskManager.getInstance();
     private static int idCounter = 1;
-    LocalDateTime timeCreated;
+    private LocalDateTime timeCreated;
+    private LocalDateTime timeUpdated;
 
-    public Task (String task) throws IOException {
+    public Task (String task) {
         this.id = idCounter++;
         this.task = task;
         this.status = Status.TODO;
-        taskManager.addAll(this);
         this.timeCreated = LocalDateTime.now();
+        this.timeUpdated = LocalDateTime.now();
+    }
+
+    public Task(int id, String task, Status status, LocalDateTime timeCreated, LocalDateTime timeUpdated) {
+        this.id = id;
+        this.task = task;
+        this.status = status;
+        this.timeCreated = timeCreated;
+        this.timeUpdated = timeUpdated;
     }
 
     public String toJson (){
-        return String.format("\t{\n\t\t\"id\": %s,\n\t\t\"task\": \"%s\",\n\t\t\"status\": \"%s\",\n\t\t\"created at\": %s\n\t}", this.getId(),this.getTask(), this.getStatus(), this.getTimeCreated());
+        return String.format("\t{\n\t\t\"id\": %s," +
+                "\n\t\t\"task\": \"%s\"," +
+                "\n\t\t\"status\": \"%s\"," +
+                "\n\t\t\"created at\": %s," +
+                "\n\t\t\"updated at\": %s" +
+                "\n\t}", String.valueOf(this.getId()),this.getTask(),
+                this.getStatus(), this.getTimeCreated(),
+                this.getTimeUpdated());
     }
 
-//    public Task formJson (String json){
-//        int id = Integer.parseInt(json.split("\"id\":")[1].trim().split(",")[0]);
-//        String task = json.split("\"status\":")[1].
-//    }
+
 
     public int getId() {
         return id;
@@ -45,7 +57,7 @@ public class Task {
 
     public String getStatus() {
 
-        return status.getStatus();
+        return status.statusToString();
     }
 
     public void setStatus(Status status) {
@@ -58,7 +70,24 @@ public class Task {
         return formattedDate;
     }
 
-    public void setTimeCreated(LocalDateTime timeCreated) {
-        this.timeCreated = timeCreated;
+
+    public String getTimeUpdated() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return this.timeUpdated.format(formatter);
+    }
+
+    public void setTimeUpdated(LocalDateTime timeUpdated) {
+        this.timeUpdated = timeUpdated;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", task=\"" + task + '\"' +
+                ", status=" + status +
+                ", timeCreated=" + timeCreated +
+                ", timeUpdated=" + timeUpdated +
+                '}';
     }
 }
